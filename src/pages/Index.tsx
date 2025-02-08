@@ -93,17 +93,17 @@ const Index = () => {
               animate={{ scale: 1, opacity: 1 }}
               className="text-center"
             >
-              <h2 className="text-6xl font-bold mb-6">
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 break-words">
                 {result}
               </h2>
-              <p className="text-foreground/80 text-lg">
+              <p className="text-foreground/80 text-base md:text-lg">
                 {task}
               </p>
             </motion.div>
           ) : (
             <div className="h-[180px] flex items-center justify-center">
               <motion.p 
-                className="text-lg text-foreground/60"
+                className="text-base md:text-lg text-foreground/60 px-4"
                 animate={{ 
                   opacity: isAnimating ? [0.4, 1, 0.4] : 1,
                   scale: isAnimating ? [0.98, 1.02, 0.98] : 1
