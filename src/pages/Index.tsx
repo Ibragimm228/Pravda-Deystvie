@@ -43,6 +43,29 @@ const Index = () => {
     }, 1000);
   };
 
+  const selectManually = (choice: "ПРАВДА" | "ДЕЙСТВИЕ") => {
+    if (isAnimating) return;
+    
+    setIsAnimating(true);
+    setResult(null);
+    setTask(null);
+    
+    setTimeout(() => {
+      const tasks = choice === "ПРАВДА" ? gameData.truths : gameData.actions;
+      const randomTask = tasks[Math.floor(Math.random() * tasks.length)];
+      
+      setResult(choice);
+      setTask(randomTask);
+      setIsAnimating(false);
+      triggerConfetti();
+      
+      toast({
+        title: "Результат",
+        description: `Вы выбрали: ${choice}`,
+      });
+    }, 1000);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-accent to-primary p-4">
       <div className="w-full max-w-md">
@@ -99,13 +122,34 @@ const Index = () => {
 
         <motion.button
           onClick={playGame}
-          className="w-full bg-foreground text-primary rounded-xl py-4 px-8 font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-foreground/90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-foreground text-primary rounded-xl py-4 px-8 font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-foreground/90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           disabled={isAnimating}
         >
-          {isAnimating ? "Выбираем..." : result ? "Играть снова" : "Начать игру"}
+          {isAnimating ? "Выбираем..." : result ? "Играть снова" : "Случайный выбор"}
         </motion.button>
+
+        <div className="w-full grid grid-cols-2 gap-4">
+          <motion.button
+            onClick={() => selectManually("ПРАВДА")}
+            className="bg-foreground/80 text-primary rounded-xl py-4 px-8 font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-foreground/90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            disabled={isAnimating}
+          >
+            Правда
+          </motion.button>
+          <motion.button
+            onClick={() => selectManually("ДЕЙСТВИЕ")}
+            className="bg-foreground/80 text-primary rounded-xl py-4 px-8 font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-foreground/90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            disabled={isAnimating}
+          >
+            Действие
+          </motion.button>
+        </div>
       </div>
     </div>
   );
